@@ -7,6 +7,8 @@ from flask import Flask, request, jsonify
 
 load_dotenv()
 
+sk = Skype(os.getenv('email'), os.getenv('password'))
+
 
 @app.route("/sendMessage", methods=['GET', 'POST'])
 def sendMessage():
@@ -17,12 +19,10 @@ def sendMessage():
         if content_type != 'application/json':
             return {'status': 'error', 'message': 'Content-Type not supported!'}
         data = json.loads(request.data)
-        # if data.has_key('username') and data.has_key('message'):
         if 'username' in data.keys() and 'message' in data.keys():
             username = data['username']
             message = data['message']
             try:
-                sk = Skype(os.getenv('email'), os.getenv('password'))
                 ch = sk.contacts[username].chat
                 ch.sendMsg(message)
                 return {'status': 'success', 'message': 'Message sent successfully.'}
