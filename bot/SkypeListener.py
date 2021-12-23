@@ -22,7 +22,6 @@ class SkypeListener(SkypeEventLoop):
                     "chat_id": event.msg.chatId,
                     "msg": event.msg.content
                 }
-                print(message)
                 if message['msg'] == '<ss type="hi">(hi)</ss>' or message['msg'] == '<ss type="1f44b_wavinghand">(wavinghand)</ss>':
                     response = requests.post('http://td-report.loc/api/attendance/update', data=message)
                     if response.status_code == 200:
