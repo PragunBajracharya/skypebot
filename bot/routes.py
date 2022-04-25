@@ -29,3 +29,25 @@ def sendMessage():
             except:
                 return {'status': 'error', 'message': 'Message not sent.'}
         return {'status': 'error', 'message': 'Missing parameter.'}
+
+
+@app.route("/sendGroupMessage", methods=['GET', 'POST'])
+def sendGroupMessage():
+    if request.method == 'GET':
+        return {'status': 'error', 'message': 'Bad Request'}
+    if request.method == 'POST':
+        content_type = request.headers.get('Content-Type')
+        if content_type != 'application/json':
+            return {'status': 'error', 'message': 'Content-Type not supported!'}
+        data = json.loads(request.data)
+        if 'username' in data.keys() and 'message' in data.keys():
+            # grp username example = 19:9278ce0d8fc64b22a693a94d49e0f791@thread.skype
+            username = data['username']
+            message = data['message']
+            try:
+                ch = sk.chats[username]
+                ch.sendMsg(message)
+                return {'status': 'success', 'message': 'Message sent successfully.'}
+            except:
+                return {'status': 'error', 'message': 'Message not sent.'}
+        return {'status': 'error', 'message': 'Missing parameter.'}
