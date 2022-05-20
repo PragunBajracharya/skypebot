@@ -1,3 +1,4 @@
+import os
 from threading import Thread
 
 from bot import app
@@ -11,4 +12,4 @@ def runSkypeListener():
 
 if __name__ == '__main__':
     Thread(target=runSkypeListener).start()
-    app.run(debug=True, use_reloader=False)
+    app.run(debug=os.getenv('debug'), use_reloader=False, host=os.getenv('host'))
