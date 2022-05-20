@@ -12,4 +12,4 @@ def runSkypeListener():
 
 if __name__ == '__main__':
     Thread(target=runSkypeListener).start()
-    app.run(debug=os.getenv('debug'), use_reloader=False, host=os.getenv('host'))
+    app.run(debug=os.getenv('debug', False), use_reloader=False, host=os.getenv('host'))
